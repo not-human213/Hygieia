@@ -100,5 +100,47 @@ pub struct MetricsBuffer {
     pub disk: Vec<DiskMetrics>,
     pub network: Vec<NetworkMetrics>,
     pub events: Vec<SystemEvent>,
-    pub flush_interval: u64,
+    pub _flush_interval: u64,
+}
+
+impl MetricsBuffer {
+    pub fn new(flush_interval: u64) -> Self {
+        Self {
+            cpu: Vec::new(),
+            memory: Vec::new(),
+            disk: Vec::new(),
+            network: Vec::new(),
+            events: Vec::new(),
+            _flush_interval: flush_interval,
+        }
+    }
+    pub fn append_tick(
+        &mut self,
+        cpu: CpuMetrics,
+        memory: MemoryMetrics,
+        disks: Vec<DiskMetrics>,
+        networks: Vec<NetworkMetrics>,
+    ){
+        self.cpu.push(cpu);
+        self.memory.push(memory);
+        self.disk.extend(disks);
+        self.network.extend(networks);
+    }
+    pub fn append_event(&mut self, events: Vec<SystemEvent>){
+        self.events.extend(events);
+    }
+
+    pub fn flush(&self)
+    {
+        // YEETTT TO THE DATABASE
+    }
+
+    pub fn clear(&mut self)
+    {
+        self.cpu.clear();
+        self.memory.clear();
+        self.disk.clear();
+        self.network.clear();
+        self.events.clear();
+    }
 }
