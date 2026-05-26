@@ -1,6 +1,7 @@
 use sysinfo::{Components, Disks, Networks, System};
 use std::{thread, time::Duration};
 
+
 pub fn start_monitoring() {
     let mut sys = System::new_all();
     let mut networks = Networks::new_with_refreshed_list();
@@ -56,7 +57,7 @@ pub fn start_monitoring() {
             );
         }
 
-        println!("networks:");
+        println!("{}",std::any::type_name_of_val(&networks));
         for (interface_name, data) in &networks{
             println!(" [{}] received: {} bytes, transmitted: {} bytes",
                 interface_name,
