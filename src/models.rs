@@ -42,10 +42,10 @@ pub struct NetworkHardware{
 
 #[derive(Debug, Serialize)]
 pub struct CpuMetrics{
-    pub brand: String,
-    pub vendor: String,
-    pub physical_cores: usize,
-    pub logical_cores: usize,
+    pub captured_at : DateTime<Utc>,
+    pub temperature : f32,
+    pub usage : f32,
+    pub frequency: u64,
 }
 
 // maps to 'memory_metrics' table in the database

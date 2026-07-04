@@ -1,6 +1,6 @@
 use sysinfo::{Components, Disks, Networks, System};
 use std::{thread, time::Duration};
-
+use chrono::Utc;
 
 pub fn start_monitoring() {
     let mut sys = System::new_all();
@@ -28,22 +28,26 @@ pub fn start_monitoring() {
         println!("CPU frequency: {} MHz", 
                 sys.cpus()[0].frequency());
 
-
-        let (temperature_sum, temperature_count) = components
+        let now = Utc::now();
+        let comp : Vec<_>= components
             .iter()
-            .filter_map(|component| component.temperature())
-            .fold((0.0_f32, 0_usize), |(sum, count), temperature| {
-                (sum + temperature, count + 1)
-            });
+            .filter(|component| (component.label()) == "coretemp Package id 0")
+            .collect();
 
-        if temperature_count > 0 {
-            println!(
-                "CPU temperature: {:.1}°C",
-                temperature_sum / temperature_count as f32
-            );
-        } else {
-            println!("CPU temperature: unavailable");
+    
+        // let coms : Vec<_> = components.iter().map(|x| x).inspect(|x| println!("{:?}",x.label())).collect();
+        for i in comp{
+            println!("{:?}", i);
         }
+
+        // if temperature_count > 0 {
+        //     println!(
+        //         "CPU temperature: {:.1}°C ",
+        //         temperature_sum / temperature_count as f32,
+        //     );
+        // } else {
+        //     println!("CPU temperature: unavailable");
+        // }
 
         println!("disks:");
         for disk in &disks{
