@@ -85,11 +85,11 @@ pub struct NetworkMetrics{
 
 #[derive(Debug, Serialize)]
 pub struct SystemEvent{
-    pub event_id: i64;
-    pub level: String;
-    pub source: String;
-    pub message: String;
-    pub timestamp: DateTime<Utc>;
+    pub event_id: i64,
+    pub level: String,
+    pub source: String,
+    pub message: String,
+    pub timestamp: DateTime<Utc>,
 }
 
 // Memory buffer

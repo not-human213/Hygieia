@@ -49,11 +49,10 @@ pub fn start_monitoring() {
         for disk in &disks{
             let total_gb = disk.total_space() /1024/1024/1024;
             let available_gb = disk.available_space() /1024/1024/1024;
-            println!(" [{}] {}: {} / {} GB available",
+            println!(" {}: {} / {} GB available",
                 disk.file_system().to_string_lossy(),
                 disk.name().to_string_lossy(),
                 total_gb,
-                available_gb
             );
         }
 
