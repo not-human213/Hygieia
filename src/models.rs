@@ -42,8 +42,8 @@ pub struct NetworkHardware{
 
 #[derive(Debug, Serialize)]
 pub struct CpuMetrics{
-    pub captured_at : DateTime<Utc>,
-    pub temperature : f32,
+    pub timestamp : DateTime<Utc>,
+    pub temperature : Option<f32>,
     pub usage : f32,
     pub frequency: u64,
 }
@@ -52,11 +52,9 @@ pub struct CpuMetrics{
 
 #[derive(Debug, Serialize)]
 pub struct MemoryMetrics{
-    pub total_memory: u64,
-    pub used_memory: u64,
-    pub total_swap: u64,
-    pub used_swap: u64,
     pub timestamp: DateTime<Utc>,
+    pub used_memory: u64,
+    pub used_swap: u64,
 }
 
 // maps to 'disk_metrics' table in the database
@@ -75,10 +73,10 @@ pub struct DiskMetrics{
 
 #[derive(Debug, Serialize)]
 pub struct NetworkMetrics{
+    pub timestamp: DateTime<Utc>,
     pub interface_name: String,
     pub bytes_received: u64,
     pub bytes_transmitted: u64,
-    pub timestamp: DateTime<Utc>,
 }
 
 //System events collected at flush
