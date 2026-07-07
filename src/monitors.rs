@@ -1,6 +1,8 @@
 use sysinfo::{Components, Disks, Networks, System};
 use std::{thread, time::Duration};
 use chrono::Utc;
+use crate::models::{CpuMetrics};
+
 
 pub fn start_monitoring() {
     let mut sys = System::new_all();
@@ -28,26 +30,32 @@ pub fn start_monitoring() {
         println!("CPU frequency: {} MHz", 
                 sys.cpus()[0].frequency());
 
-        let now = Utc::now();
+                
+        //CPU TEMP
         let comp : Vec<_>= components
-            .iter()
-            .filter(|component| (component.label()) == "coretemp Package id 0")
-            .collect();
+        .iter()
+        .filter(|component| (component.label()) == "coretemp Package id 0")
+        .collect();
+        println!("{:?}", comp[0].temperature());
+        
+        
+        let now = Utc::now();
 
-    
-        // let coms : Vec<_> = components.iter().map(|x| x).inspect(|x| println!("{:?}",x.label())).collect();
-        for i in comp{
-            println!("{:?}", i);
+
+        let cpu_metrics = CpuMetrics {
+            captured_at: now,
+            temperature: comp[0].temperature(),
+            usage: sys.global_cpu_usage(),
+            frequency: sys.cpus()[0].frequency(),
         }
 
-        // if temperature_count > 0 {
-        //     println!(
-        //         "CPU temperature: {:.1}°C ",
-        //         temperature_sum / temperature_count as f32,
-        //     );
-        // } else {
-        //     println!("CPU temperature: unavailable");
-        // }
+
+
+
+
+
+
+
 
         println!("disks:");
         for disk in &disks{
@@ -68,6 +76,8 @@ pub fn start_monitoring() {
                 data.transmitted()
             );
         }
+
+
 
         thread::sleep(Duration::from_secs(2));
             
